@@ -147,6 +147,11 @@ elBtnExemplo.addEventListener("click", () => {
 
 // ----- Lista de produtos (botoes Editar / Excluir) -----
 
+// Ícones SVG inline (compactos, sem dependência de font de ícones).
+// Lápis para editar, lixeira para excluir. Cor herdada via currentColor.
+const ICONE_EDITAR = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>';
+const ICONE_EXCLUIR = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+
 function renderLista(produtos) {
   elListaProdutos.innerHTML = "";
   if (produtos.length === 0) {
@@ -157,32 +162,46 @@ function renderLista(produtos) {
   tabela.className = "tabela-produtos";
   tabela.innerHTML = `
     <thead>
-      <tr><th>ID</th><th>Nome</th><th>Categoria</th><th>Preço</th><th>Estoque</th><th>Data</th><th>Ativo</th><th>Ações</th></tr>
+      <tr>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Estoque</th>
+        <th class="th-acoes">Ações</th>
+      </tr>
     </thead><tbody></tbody>`;
   const tbody = tabela.querySelector("tbody");
 
   for (const p of produtos) {
     const tr = document.createElement("tr");
+    // Tooltip da linha mostra todos os campos sem precisar de coluna extra.
+    const dataFmt = p.dataCadastro.toISOString().slice(0, 10);
+    const ativoLabel = p.ativo ? "✓ ativo" : "— inativo";
+    tr.title = `id ${p.id} · ${p.nome} · ${p.categoria} · cadastrado em ${dataFmt} · ${ativoLabel}`;
+
     tr.innerHTML = `
-      <td>${p.id}</td>
-      <td>${escapeHtml(p.nome)}</td>
-      <td>${escapeHtml(p.categoria)}</td>
-      <td>R$ ${p.preco.toFixed(2)}</td>
-      <td>${p.estoque}</td>
-      <td>${p.dataCadastro.toISOString().slice(0, 10)}</td>
-      <td>${p.ativo ? "✓" : "—"}</td>
+      <td class="td-nome">
+        <strong>${escapeHtml(p.nome)}</strong>
+        <span class="meta">#${p.id} · ${escapeHtml(p.categoria)} · ${dataFmt}</span>
+      </td>
+      <td class="td-num">R$ ${p.preco.toFixed(2)}</td>
+      <td class="td-num">${p.estoque}</td>
     `;
+
     const tdAcoes = document.createElement("td");
     tdAcoes.className = "td-acoes";
 
     const btnEditar = document.createElement("button");
-    btnEditar.textContent = "Editar";
-    btnEditar.className = "btn-acao btn-editar";
+    btnEditar.className = "btn-icone btn-editar";
+    btnEditar.innerHTML = ICONE_EDITAR;
+    btnEditar.title = "Editar este produto";
+    btnEditar.setAttribute("aria-label", `Editar ${p.nome}`);
     btnEditar.addEventListener("click", () => carregarParaEdicao(p));
 
     const btnExcluir = document.createElement("button");
-    btnExcluir.textContent = "Excluir";
-    btnExcluir.className = "btn-acao btn-excluir";
+    btnExcluir.className = "btn-icone btn-excluir";
+    btnExcluir.innerHTML = ICONE_EXCLUIR;
+    btnExcluir.title = "Excluir este produto";
+    btnExcluir.setAttribute("aria-label", `Excluir ${p.nome}`);
     btnExcluir.addEventListener("click", () => {
       if (!confirm(`Excluir o produto "${p.nome}" (id=${p.id})?`)) return;
       arquivo.delete(p.id);

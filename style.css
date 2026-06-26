@@ -109,7 +109,7 @@ code { font-family: "JetBrains Mono", "Fira Code", Consolas, monospace; }
 
 .app-grid {
   display: grid;
-  grid-template-columns: minmax(340px, 1fr) minmax(0, 2fr);
+  grid-template-columns: minmax(380px, 1fr) minmax(0, 1.5fr);
   gap: 20px;
   padding: 20px 32px;
 }
@@ -264,6 +264,7 @@ button:hover { background: #f3f4f6; }
   border-collapse: collapse;
   font-size: 13px;
   margin-top: 8px;
+  table-layout: auto;
 }
 
 .tabela-produtos th,
@@ -271,33 +272,86 @@ button:hover { background: #f3f4f6; }
   padding: 8px 6px;
   text-align: left;
   border-bottom: 1px solid var(--border);
+  vertical-align: middle;
 }
 
 .tabela-produtos th {
   background: #f3f4f6;
   font-weight: 600;
   color: var(--text-soft);
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
-.tabela-produtos td.td-acoes {
+.tabela-produtos tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* Coluna do nome: mostra nome em destaque + uma linha meta com
+   id + categoria + data, evitando a necessidade de colunas separadas
+   pra essas informacoes. Tooltip da <tr> tambem repete tudo. */
+.tabela-produtos .td-nome {
   display: flex;
-  gap: 4px;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.tabela-produtos .td-nome strong {
+  font-weight: 500;
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+.tabela-produtos .td-nome .meta {
+  font-size: 11px;
+  color: var(--text-soft);
+}
+
+.tabela-produtos .td-num {
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  text-align: right;
 }
 
-.btn-acao {
-  font-size: 12px;
-  padding: 4px 8px;
+.tabela-produtos .th-acoes,
+.tabela-produtos .td-acoes {
+  text-align: right;
+  white-space: nowrap;
+  width: 1%;       /* fica do tamanho necessario, sem esticar */
 }
 
-.btn-editar { color: var(--primary); border-color: var(--primary); }
-.btn-editar:hover { background: var(--primary); color: #fff; }
+.tabela-produtos .td-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 6px;
+}
 
-.btn-excluir { color: var(--danger); border-color: var(--danger); }
-.btn-excluir:hover { background: var(--danger); color: #fff; }
+/* Botoes de acao agora sao apenas icones, ocupando pouco espaco */
+.btn-icone {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.btn-icone svg { display: block; }
+
+.btn-icone.btn-editar  { color: var(--primary); border-color: #c7d2fe; }
+.btn-icone.btn-editar:hover  { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+.btn-icone.btn-excluir { color: var(--danger);  border-color: #fecaca; }
+.btn-icone.btn-excluir:hover { background: var(--danger);  color: #fff; border-color: var(--danger); }
 
 .lista-produtos .vazio {
   color: var(--text-soft);
