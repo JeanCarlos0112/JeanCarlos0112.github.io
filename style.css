@@ -1,0 +1,428 @@
+/* TP4 - AEDS3 · UI visual do CRUD em arquivo binário
+   Grupo 12 · PUC Minas
+
+   Paleta principal: tons frios para chrome, cores quentes/distintas
+   para os campos do byte array. Texto bem contrastado em tudo.
+*/
+
+:root {
+  /* Chrome */
+  --bg:         #f7f8fa;
+  --surface:    #ffffff;
+  --border:     #e4e7eb;
+  --text:       #1f2937;
+  --text-soft:  #6b7280;
+  --primary:    #2563eb;
+  --primary-d:  #1d4ed8;
+  --danger:     #dc2626;
+  --success:    #059669;
+
+  /* Cores dos campos no array de bytes */
+  --c-cabecalho: #cbd5e1; /* cinza azulado */
+  --c-lapide:    #fde68a; /* amarelo soft  */
+  --c-tamanho:   #d8b4fe; /* lilás         */
+  --c-id:        #fca5a5; /* rosa          */
+  --c-tam-str:   #fbcfe8; /* rosa claro    */
+  --c-nome:      #93c5fd; /* azul          */
+  --c-categoria: #a7f3d0; /* verde-água    */
+  --c-preco:     #fdba74; /* laranja       */
+  --c-estoque:   #fef08a; /* amarelo       */
+  --c-data:      #c4b5fd; /* roxo claro    */
+  --c-ativo:     #6ee7b7; /* verde         */
+  --c-deletado:  #d1d5db; /* cinza         */
+  --c-padding:   #e5e7eb; /* cinza claro   */
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.5;
+}
+
+code { font-family: "JetBrains Mono", "Fira Code", Consolas, monospace; }
+
+/* -------------------- Header -------------------- */
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 24px 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.app-header h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.subtitulo {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 14px;
+  max-width: 720px;
+}
+
+.header-acoes {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* -------------------- Flash messages -------------------- */
+
+.flash {
+  margin: 0 32px;
+  padding: 0;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.flash-ok {
+  height: auto;
+  padding: 12px 16px;
+  margin-top: 12px;
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.flash-erro {
+  height: auto;
+  padding: 12px 16px;
+  margin-top: 12px;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* -------------------- Layout principal -------------------- */
+
+.app-grid {
+  display: grid;
+  grid-template-columns: minmax(340px, 1fr) minmax(0, 2fr);
+  gap: 20px;
+  padding: 20px 32px;
+}
+
+@media (max-width: 1024px) {
+  .app-grid { grid-template-columns: 1fr; }
+}
+
+.caixa {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+details.caixa > summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 4px 0;
+  user-select: none;
+  list-style: none;
+}
+
+details.caixa > summary::before {
+  content: "▶";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+  font-size: 10px;
+  color: var(--text-soft);
+}
+
+details.caixa[open] > summary::before { transform: rotate(90deg); }
+
+.caixa h2 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.legenda {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+/* -------------------- Formulário -------------------- */
+
+.form-cadastro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding-top: 12px;
+}
+
+.form-cadastro label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.form-cadastro label.checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-weight: 400;
+  grid-column: 1 / -1;
+}
+
+.form-cadastro input[type="text"],
+.form-cadastro input[type="number"],
+.form-cadastro input[type="date"] {
+  margin-top: 4px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 14px;
+  background: #fff;
+}
+
+.form-cadastro input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.form-acoes {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.12s ease;
+}
+
+button:hover { background: #f3f4f6; }
+
+.btn-primario {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.btn-primario:hover { background: var(--primary-d); border-color: var(--primary-d); }
+
+.btn-secundario { background: #fff; }
+
+.btn-perigo {
+  background: #fff;
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.btn-perigo:hover { background: var(--danger); color: #fff; }
+
+/* -------------------- Busca -------------------- */
+
+.busca {
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+}
+
+.busca input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.busca input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* -------------------- Tabela de produtos -------------------- */
+
+.tabela-produtos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.tabela-produtos th,
+.tabela-produtos td {
+  padding: 8px 6px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.tabela-produtos th {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: var(--text-soft);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tabela-produtos td.td-acoes {
+  display: flex;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.btn-acao {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+.btn-editar { color: var(--primary); border-color: var(--primary); }
+.btn-editar:hover { background: var(--primary); color: #fff; }
+
+.btn-excluir { color: var(--danger); border-color: var(--danger); }
+.btn-excluir:hover { background: var(--danger); color: #fff; }
+
+.lista-produtos .vazio {
+  color: var(--text-soft);
+  font-style: italic;
+  padding: 8px 0;
+}
+
+/* -------------------- Visualização byte array -------------------- */
+
+.visualizacao {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.secao-titulo {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 6px;
+  letter-spacing: 0.02em;
+}
+
+.registro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 8px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.registro-cabecalho {
+  border-color: var(--text-soft);
+  border-style: dashed;
+}
+
+.registro.deletado {
+  opacity: 0.55;
+  background: repeating-linear-gradient(
+    45deg,
+    #fafafa,
+    #fafafa 6px,
+    #e5e7eb 6px,
+    #e5e7eb 12px
+  );
+}
+
+.byte {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #111827;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  cursor: help;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.byte:hover {
+  transform: scale(1.18);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+  position: relative;
+}
+
+.campo-cabecalho { background: var(--c-cabecalho); }
+.campo-lapide    { background: var(--c-lapide); }
+.campo-tamanho   { background: var(--c-tamanho); }
+.campo-id        { background: var(--c-id); }
+.campo-tam       { background: var(--c-tam-str); }
+.campo-nome      { background: var(--c-nome); }
+.campo-categoria { background: var(--c-categoria); }
+.campo-preco     { background: var(--c-preco); }
+.campo-estoque   { background: var(--c-estoque); }
+.campo-data      { background: var(--c-data); }
+.campo-ativo     { background: var(--c-ativo); }
+.campo-deletado  { background: var(--c-deletado); color: #6b7280; }
+.campo-padding   { background: var(--c-padding); color: #9ca3af; }
+
+/* -------------------- Legenda de cores -------------------- */
+
+.legenda-cores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--text-soft);
+  margin-bottom: 16px;
+  padding: 10px;
+  background: #f9fafb;
+  border-radius: 6px;
+}
+
+.legenda-cores .amostra {
+  display: inline-block;
+  width: 18px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(0,0,0,0.08);
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.vazio {
+  color: var(--text-soft);
+  font-style: italic;
+  padding: 12px;
+}
+
+/* -------------------- Footer -------------------- */
+
+.app-footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-soft);
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  margin-top: 32px;
+}
