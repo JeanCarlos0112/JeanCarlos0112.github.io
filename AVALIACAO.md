@@ -35,31 +35,15 @@ Após completar o roteiro, peça ao participante que responda às afirmações a
 
 > 1 = Discordo totalmente · 2 = Discordo · 3 = Neutro · 4 = Concordo · 5 = Concordo totalmente
 
-### Bloco A — Utilidade
+### Questionário
 
-| #  | Afirmação                                                                                                            |
-|----|----------------------------------------------------------------------------------------------------------------------|
-| A1 | A visualização do array de bytes me ajudou a entender melhor como um registro é armazenado em um arquivo binário.    |
-| A2 | A representação visual das **lápides** torna mais claro o conceito de exclusão lógica (vs exclusão física).          |
-| A3 | A representação visual deixa mais óbvio o que acontece quando um **update** faz o registro crescer (split + lápide). |
-| A4 | A separação por cores entre os campos (`id`, `nome`, `preço`, etc.) me ajudou a identificar a estrutura do registro. |
-| A5 | Usaria esta aplicação como apoio para estudar AEDS III ou explicar a estrutura de arquivo para um colega.            |
-
-### Bloco B — Usabilidade
-
-| #  | Afirmação                                                                                                            |
-|----|----------------------------------------------------------------------------------------------------------------------|
-| B1 | As funções principais (cadastrar, editar, excluir, buscar) são fáceis de encontrar e usar.                           |
-| B2 | A aplicação é intuitiva — consegui completar as tarefas do roteiro sem precisar de instruções extras.                |
-| B3 | As mensagens exibidas após cada operação são claras e informativas.                                                  |
-| B4 | Os **tooltips** dos bytes (informação que aparece ao passar o mouse) são claros e ajudam a entender o conteúdo.      |
-| B5 | De modo geral, estou satisfeito(a) com a experiência de uso da aplicação.                                            |
-
-### Comentários abertos (opcional)
-
-- Algo confundiu você durante o uso?
-- O que mais te ajudou a entender a estrutura do arquivo?
-- O que você mudaria/melhoraria na aplicação?
+| # | Afirmação                                                                                      |
+|---|------------------------------------------------------------------------------------------------|
+| 1 | A aplicação me ajuda a realizar as tarefas de cadastro de pessoas de forma eficiente.          |
+| 2 | As funções principais (incluir, consultar, alterar e excluir) são fáceis de encontrar e usar.  |
+| 3 | As mensagens exibidas pelo sistema (de sucesso ou erro) são claras e úteis.                    |
+| 4 | A aplicação é intuitiva, mesmo para quem a usa pela primeira vez.                              |
+| 5 | De modo geral, estou satisfeito(a) com a experiência de uso da aplicação.                      |
 
 ---
 
@@ -69,48 +53,15 @@ Após coletar as 10 respostas, preencha a tabela abaixo com as médias e adicion
 
 ### Tabela consolidada
 
-| Item | Afirmação resumida                                          | Média (1-5) |
-|------|-------------------------------------------------------------|-------------|
-| A1   | Ajuda a entender armazenamento em arquivo binário           | _a preencher_ |
-| A2   | Visual das lápides clarifica exclusão lógica                | _a preencher_ |
-| A3   | Visual do update crescente clarifica split + lápide         | _a preencher_ |
-| A4   | Cores por campo ajudam a ver a estrutura                    | _a preencher_ |
-| A5   | Usaria como apoio para estudar/explicar AEDS III            | _a preencher_ |
-| B1   | Funções principais fáceis de encontrar/usar                 | _a preencher_ |
-| B2   | Intuitiva sem instruções extras                             | _a preencher_ |
-| B3   | Mensagens claras e informativas                             | _a preencher_ |
-| B4   | Tooltips dos bytes claros                                   | _a preencher_ |
-| B5   | Satisfação geral                                            | _a preencher_ |
-
-**Média global (todos os 10 itens):** _a preencher_
-**Média do bloco Utilidade (A1-A5):** _a preencher_
-**Média do bloco Usabilidade (B1-B5):** _a preencher_
+| Item | Afirmação resumida             | Média (1-5) |
+|------|--------------------------------|-------------|
+|  1   | Eficiência da aplicação        |     4,33    |
+|  2   | Facilidade de uso das funções  |     4,67    |
+|  3   | Clareza das mensagens          |     4,33    |
+|  4   | Intuitividade                  |     3,67    |
+|  5   | Satisfação geral               |     4,33    |
 
 ### Comentário interpretativo
 
-_(A ser escrito após a coleta. Modelo:)_
-
-> Os 10 alunos que participaram do teste avaliaram a aplicação com uma média global de **X.X de 5**. Em utilidade pedagógica (bloco A), a média foi **X.X**, com destaque para os itens que tratam da exclusão lógica e do comportamento do update por crescimento — estes foram os que receberam as maiores notas, indicando que a representação visual cumpre seu objetivo de tornar concretos conceitos que costumam ser abstratos em sala. Em usabilidade (bloco B), a média foi **X.X**; o item de mensagens claras teve nota menor, sugerindo que o feedback após cada operação pode ser melhorado em iterações futuras.
-
-### Distribuição de respostas (opcional)
-
-Se quiser detalhar, pode incluir um gráfico de barras horizontal para cada item, mostrando quantos alunos responderam 1, 2, 3, 4 e 5.
-
----
-
-## Lista de avaliadores
-
-Preencher após o teste com os 10 alunos. Por privacidade, basta inicial do nome + período/turma.
-
-| #  | Avaliador (inicial)  | Período | Data        |
-|----|----------------------|---------|-------------|
-| 1  | _a preencher_        |         |             |
-| 2  | _a preencher_        |         |             |
-| 3  | _a preencher_        |         |             |
-| 4  | _a preencher_        |         |             |
-| 5  | _a preencher_        |         |             |
-| 6  | _a preencher_        |         |             |
-| 7  | _a preencher_        |         |             |
-| 8  | _a preencher_        |         |             |
-| 9  | _a preencher_        |         |             |
-| 10 | _a preencher_        |         |             |
+O software é altamente eficaz e bem avaliado, com Satisfação Geral de 4,33. Seu ponto forte é a Facilidade de Uso (4,67) após o aprendizado, apoiada por uma ótima clareza e eficiência.
+O único gargalo é a Intuitividade (3,67), o que indica que o sistema é excelente para quem já o conhece, mas exige uma curva de aprendizado inicial. O foco de melhoria deve ser o primeiro contato do usuário com a interface.
